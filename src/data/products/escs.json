@@ -1,0 +1,54 @@
+[
+  {
+    "id": "tmotor-f55a-pro2",
+    "name": "T-Motor F55A Pro II",
+    "brand": "T-Motor",
+    "category": "esc",
+    "current": 55,
+    "burstCurrent": 65,
+    "firmware": "BLHeli_32",
+    "protocol": "DShot600",
+    "weight": 10.2,
+    "voltage": "3-6S",
+    "price": 1500
+  },
+  {
+    "id": "speedybee-f405-50a",
+    "name": "SpeedyBee F405 V4 50A",
+    "brand": "SpeedyBee",
+    "category": "esc",
+    "current": 50,
+    "burstCurrent": 60,
+    "firmware": "BLHeli_S",
+    "protocol": "DShot600",
+    "weight": 9.5,
+    "voltage": "3-6S",
+    "price": 1100
+  },
+  {
+    "id": "flywoo-goku-50a",
+    "name": "Flywoo GOKU 50A",
+    "brand": "Flywoo",
+    "category": "esc",
+    "current": 50,
+    "burstCurrent": 55,
+    "firmware": "BLHeli_32",
+    "protocol": "DShot600",
+    "weight": 8.8,
+    "voltage": "3-6S",
+    "price": 950
+  },
+  {
+    "id": "mamba-f50-pro",
+    "name": "Mamba F50 Pro",
+    "brand": "Diatone",
+    "category": "esc",
+    "current": 50,
+    "burstCurrent": 60,
+    "firmware": "BLHeli_32",
+    "protocol": "DShot600",
+    "weight": 9.0,
+    "voltage": "3-6S",
+    "price": 850
+  }
+]

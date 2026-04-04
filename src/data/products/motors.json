@@ -1,0 +1,67 @@
+[
+  {
+    "id": "tmotor-velox-v3-2306",
+    "name": "T-Motor Velox V3 2306.5",
+    "brand": "T-Motor",
+    "category": "motor",
+    "size": "2306.5",
+    "kv": 1750,
+    "weight": 33.2,
+    "maxThrust": 1850,
+    "testProp": "HQ 5x4.3x3",
+    "voltage": "6S",
+    "price": 1200
+  },
+  {
+    "id": "emax-eco2-2207",
+    "name": "EMAX Eco II 2207",
+    "brand": "EMAX",
+    "category": "motor",
+    "size": "2207",
+    "kv": 1700,
+    "weight": 32,
+    "maxThrust": 1720,
+    "testProp": "Gemfan 51466",
+    "voltage": "6S",
+    "price": 550
+  },
+  {
+    "id": "iflight-xing2-2306",
+    "name": "iFlight XING2 2306",
+    "brand": "iFlight",
+    "category": "motor",
+    "size": "2306",
+    "kv": 1755,
+    "weight": 34.5,
+    "maxThrust": 1900,
+    "testProp": "HQ 5x4.3x3",
+    "voltage": "6S",
+    "price": 850
+  },
+  {
+    "id": "brotherhobby-avenger-2306",
+    "name": "BrotherHobby Avenger 2306.5",
+    "brand": "BrotherHobby",
+    "category": "motor",
+    "size": "2306.5",
+    "kv": 1800,
+    "weight": 33.8,
+    "maxThrust": 1880,
+    "testProp": "HQ 5x4.3x3",
+    "voltage": "6S",
+    "price": 750
+  },
+  {
+    "id": "geprc-speedx2-2306",
+    "name": "GEPRC SpeedX2 2306.5",
+    "brand": "GEPRC",
+    "category": "motor",
+    "size": "2306.5",
+    "kv": 1750,
+    "weight": 32.5,
+    "maxThrust": 1820,
+    "testProp": "HQ 5x4.3x3",
+    "voltage": "6S",
+    "price": 680
+  }
+]

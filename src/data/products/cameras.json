@@ -1,0 +1,54 @@
+[
+  {
+    "id": "caddx-ratel2",
+    "name": "Caddx Ratel 2",
+    "brand": "Caddx",
+    "category": "kamera",
+    "sensor": "1/1.8\" Starlight",
+    "resolution": "1200TVL",
+    "fov": 165,
+    "latency": "<5ms",
+    "weight": 7.5,
+    "voltage": "5-20V",
+    "price": 850
+  },
+  {
+    "id": "foxeer-razer-mini",
+    "name": "Foxeer Razer Mini",
+    "brand": "Foxeer",
+    "category": "kamera",
+    "sensor": "1/3\" CMOS",
+    "resolution": "1200TVL",
+    "fov": 160,
+    "latency": "<6ms",
+    "weight": 5.5,
+    "voltage": "5-40V",
+    "price": 650
+  },
+  {
+    "id": "runcam-phoenix2",
+    "name": "RunCam Phoenix 2",
+    "brand": "RunCam",
+    "category": "kamera",
+    "sensor": "1/2\" CMOS",
+    "resolution": "1000TVL",
+    "fov": 155,
+    "latency": "<7ms",
+    "weight": 6.0,
+    "voltage": "5-36V",
+    "price": 720
+  },
+  {
+    "id": "dji-o3-air-unit",
+    "name": "DJI O3 Air Unit",
+    "brand": "DJI",
+    "category": "kamera",
+    "sensor": "1/2\" CMOS",
+    "resolution": "4K",
+    "fov": 155,
+    "latency": "<28ms",
+    "weight": 36.7,
+    "voltage": "7.4-26.4V",
+    "price": 6500
+  }
+]

@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+  --color-fpv-cyan: #06b6d4;
+  --color-fpv-lime: #84cc16;
+  --color-fpv-orange: #f97316;
+  --color-fpv-dark: #0a0a0f;
+  --color-fpv-card: #18181b;
+  --color-fpv-border: #27272a;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+body {
+  background-color: var(--color-fpv-dark);
+  color: #f4f4f5;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@utility card-glow {
+  border: 1px solid var(--color-fpv-border);
+  background-color: var(--color-fpv-card);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  &:hover {
+    border-color: oklch(from var(--color-fpv-cyan) l c h / 0.5);
+    box-shadow: 0 10px 15px -3px oklch(from var(--color-fpv-cyan) l c h / 0.1);
+  }
+}
+
+@utility glow-text {
+  background: linear-gradient(135deg, var(--color-fpv-cyan), var(--color-fpv-lime));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

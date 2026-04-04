@@ -1,0 +1,50 @@
+[
+  {
+    "id": "rush-tank-ultimate-plus",
+    "name": "Rush Tank Ultimate Plus",
+    "brand": "Rush",
+    "category": "vtx",
+    "power": "25-800mW",
+    "channels": 48,
+    "protocol": "IRC Tramp",
+    "weight": 6.5,
+    "antenna": "MMCX",
+    "price": 950
+  },
+  {
+    "id": "tbs-unify-pro32-hv",
+    "name": "TBS Unify Pro32 HV",
+    "brand": "TBS",
+    "category": "vtx",
+    "power": "25-1000mW",
+    "channels": 40,
+    "protocol": "SmartAudio",
+    "weight": 7.0,
+    "antenna": "MMCX",
+    "price": 1400
+  },
+  {
+    "id": "foxeer-reaper-extreme",
+    "name": "Foxeer Reaper Extreme",
+    "brand": "Foxeer",
+    "category": "vtx",
+    "power": "25-1500mW",
+    "channels": 48,
+    "protocol": "IRC Tramp",
+    "weight": 8.2,
+    "antenna": "MMCX",
+    "price": 1100
+  },
+  {
+    "id": "hdzero-vtx",
+    "name": "HDZero Race V3",
+    "brand": "HDZero",
+    "category": "vtx",
+    "power": "25-400mW",
+    "channels": 8,
+    "protocol": "HDZero Digital",
+    "weight": 8.5,
+    "antenna": "MMCX",
+    "price": 2200
+  }
+]
