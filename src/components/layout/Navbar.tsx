@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navItems } from "@/data/navigation";
@@ -12,8 +13,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-fpv-border bg-fpv-dark/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold glow-text">FPV Türkiye</span>
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.png" alt="FPV Türkiye" width={280} height={70} className="h-12 w-auto" priority />
         </Link>
 
         {/* Desktop */}
