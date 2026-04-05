@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { Poll } from "@/components/forum/Poll";
 
 export default function ForumPage() {
   return (
@@ -29,6 +29,8 @@ export default function ForumPage() {
       <div className="mt-8">
         <Button href="/">Ana Sayfaya Dön</Button>
       </div>
+
+      <Poll />
     </div>
   );
 }

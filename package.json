@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
+    "@upstash/redis": "^1.37.0",
+    "@vercel/blob": "^2.3.3",
     "date-fns": "^4.1.0",
     "gray-matter": "^4.0.3",
     "next": "16.2.2",
@@ -26,6 +28,7 @@
     "@types/nodemailer": "^7.0.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4",

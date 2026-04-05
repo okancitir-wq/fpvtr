@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import { isAuthenticated } from "@/app/admin/actions";
+import { AdminToolbar } from "@/components/blog/AdminToolbar";
 import { Badge } from "@/components/ui/Badge";
 import type { Metadata } from "next";
 
@@ -9,7 +12,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -41,7 +44,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const allPosts = getAllPosts();
+  const allPosts = await getAllPosts();
   const relatedPosts = allPosts
     .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
@@ -53,8 +56,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     ipucu: "İpucu",
   };
 
+  const admin = await isAuthenticated();
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      {admin && <AdminToolbar slug={post.slug} />}
+
       {/* Breadcrumb */}
       <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-500">
         <Link href="/" className="hover:text-fpv-cyan transition-colors">
@@ -94,6 +101,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         )}
       </header>
+
+      {/* Cover image */}
+      {post.coverImage && (
+        <div className="relative mt-8 aspect-video overflow-hidden rounded-xl border border-fpv-border">
+          <Image
+            src={post.coverImage}
+            alt={post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
 
       {/* Content */}
       <article

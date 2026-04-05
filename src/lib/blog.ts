@@ -1,87 +1,118 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import gfm from "remark-gfm";
+import { getRedis } from "./redis";
 import type { BlogPost, BlogPostWithContent } from "@/types/blog";
 
-const contentDir = path.join(process.cwd(), "content", "blog");
-
-function ensureDir() {
-  if (!fs.existsSync(contentDir)) {
-    fs.mkdirSync(contentDir, { recursive: true });
-  }
+interface StoredPost {
+  slug: string;
+  title: string;
+  date: string;
+  author: string;
+  excerpt: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+  coverImage: string;
+  content: string; // raw markdown
 }
 
-export function getAllPosts(): BlogPost[] {
-  ensureDir();
-  const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+const SLUGS_KEY = "blog:slugs";
+function postKey(slug: string) {
+  return `blog:post:${slug}`;
+}
 
-  const posts = files.map((file) => {
-    const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
-    const { data } = matter(raw);
-    return {
-      slug: data.slug || file.replace(/\.md$/, ""),
-      title: data.title || "",
-      date: data.date || "",
-      author: data.author || "FPV Türkiye",
-      excerpt: data.excerpt || "",
-      category: data.category || "haber",
-      tags: data.tags || [],
-      featured: data.featured || false,
-      coverImage: data.coverImage || "",
-    } as BlogPost;
-  });
+function toDate(d: string): number {
+  return new Date(d).getTime();
+}
 
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+function toBlogPost(stored: StoredPost): BlogPost {
+  return {
+    slug: stored.slug,
+    title: stored.title,
+    date: stored.date,
+    author: stored.author || "FPV Türkiye",
+    excerpt: stored.excerpt,
+    category: stored.category as BlogPost["category"],
+    tags: stored.tags || [],
+    featured: stored.featured || false,
+    coverImage: stored.coverImage || "",
+  };
+}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  const redis = getRedis();
+
+  // Get all slugs ordered by date descending (highest score first)
+  const slugs = await redis.zrange<string[]>(SLUGS_KEY, 0, -1, { rev: true });
+  if (!slugs || slugs.length === 0) return [];
+
+  const pipeline = redis.pipeline();
+  for (const slug of slugs) {
+    pipeline.get(postKey(slug));
+  }
+  const results = await pipeline.exec<(StoredPost | null)[]>();
+
+  return results.filter(Boolean).map((p) => toBlogPost(p!));
 }
 
 export async function getPostBySlug(
   slug: string
 ): Promise<BlogPostWithContent | null> {
-  ensureDir();
-  const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+  const redis = getRedis();
+  const stored = await redis.get<StoredPost>(postKey(slug));
+  if (!stored) return null;
 
-  for (const file of files) {
-    const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
-    const { data, content } = matter(raw);
-    const postSlug = data.slug || file.replace(/\.md$/, "");
+  const result = await remark().use(gfm).use(html).process(stored.content);
 
-    if (postSlug === slug) {
-      const result = await remark().use(gfm).use(html).process(content);
-
-      return {
-        slug: postSlug,
-        title: data.title || "",
-        date: data.date || "",
-        author: data.author || "FPV Türkiye",
-        excerpt: data.excerpt || "",
-        category: data.category || "haber",
-        tags: data.tags || [],
-        featured: data.featured || false,
-        coverImage: data.coverImage || "",
-        contentHtml: result.toString(),
-      };
-    }
-  }
-
-  return null;
+  return {
+    ...toBlogPost(stored),
+    contentHtml: result.toString(),
+  };
 }
 
-export function getFeaturedPosts(count: number = 3): BlogPost[] {
-  const all = getAllPosts();
+export async function getFeaturedPosts(count: number = 3): Promise<BlogPost[]> {
+  const all = await getAllPosts();
   const featured = all.filter((p) => p.featured);
   return (featured.length >= count ? featured : all).slice(0, count);
 }
 
-export function getPostsByCategory(category: string): BlogPost[] {
-  return getAllPosts().filter((p) => p.category === category);
+export async function getPostsByCategory(
+  category: string
+): Promise<BlogPost[]> {
+  const all = await getAllPosts();
+  return all.filter((p) => p.category === category);
 }
 
-export function getCategories(): string[] {
-  const posts = getAllPosts();
+export async function getCategories(): Promise<string[]> {
+  const posts = await getAllPosts();
   return [...new Set(posts.map((p) => p.category))];
+}
+
+// --- Write operations (used by admin actions) ---
+
+export async function savePost(post: StoredPost): Promise<void> {
+  const redis = getRedis();
+  await Promise.all([
+    redis.set(postKey(post.slug), post),
+    redis.zadd(SLUGS_KEY, { score: toDate(post.date), member: post.slug }),
+  ]);
+}
+
+export async function removePost(slug: string): Promise<boolean> {
+  const redis = getRedis();
+  const existed = await redis.del(postKey(slug));
+  await redis.zrem(SLUGS_KEY, slug);
+  return existed > 0;
+}
+
+export async function getPostRawData(slug: string): Promise<StoredPost | null> {
+  const redis = getRedis();
+  return redis.get<StoredPost>(postKey(slug));
+}
+
+export async function postExists(slug: string): Promise<boolean> {
+  const redis = getRedis();
+  const val = await redis.exists(postKey(slug));
+  return val > 0;
 }

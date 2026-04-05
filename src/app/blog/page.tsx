@@ -16,8 +16,8 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
-  const allPosts = getAllPosts();
-  const categories = getCategories();
+  const allPosts = await getAllPosts();
+  const categories = await getCategories();
   const activeCategory = params.kategori;
 
   const posts = activeCategory

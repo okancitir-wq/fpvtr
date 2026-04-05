@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-fpv-border bg-fpv-card">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 text-center">
           {/* Brand */}
           <div>
             <span className="text-xl font-bold glow-text">FPV Türkiye</span>
@@ -43,7 +43,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-zinc-100">
               Bizi Takip Edin
             </h3>
-            <div className="mt-3 flex gap-4">
+            <div className="mt-3 flex justify-center gap-4">
               <a
                 href="#"
                 className="text-zinc-400 transition-colors hover:text-fpv-cyan"

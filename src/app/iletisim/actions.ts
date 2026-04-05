@@ -34,6 +34,9 @@ export async function sendContactEmail(
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
 
     await transporter.sendMail({
@@ -55,7 +58,8 @@ export async function sendContactEmail(
     });
 
     return { success: true, error: "" };
-  } catch {
+  } catch (err) {
+    console.error("SMTP Error:", err);
     return {
       success: false,
       error: "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.",
