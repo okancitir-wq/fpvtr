@@ -26,12 +26,21 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
+      url: `/blog/${slug}`,
+      ...(post.coverImage ? { images: [{ url: post.coverImage }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      ...(post.coverImage ? { images: [post.coverImage] } : {}),
     },
   };
 }
@@ -58,8 +67,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const admin = await isAuthenticated();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: { "@type": "Person", name: post.author },
+    publisher: {
+      "@type": "Organization",
+      name: "FPV Türkiye",
+      logo: { "@type": "ImageObject", url: "https://www.fpvtr.com/logo.png" },
+    },
+    mainEntityOfPage: `https://www.fpvtr.com/blog/${post.slug}`,
+    ...(post.coverImage ? { image: post.coverImage } : {}),
+    keywords: post.tags.join(", "),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: "https://www.fpvtr.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.fpvtr.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       {admin && <AdminToolbar slug={post.slug} />}
 
       {/* Breadcrumb */}

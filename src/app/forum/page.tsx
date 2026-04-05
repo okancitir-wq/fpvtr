@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { Poll } from "@/components/forum/Poll";
+
+export const metadata: Metadata = {
+  title: "Forum",
+  description:
+    "FPV Türkiye topluluk forumu. FPV drone hakkında tartışmalar, sorular ve deneyim paylaşımları.",
+  alternates: { canonical: "/forum" },
+};
 
 export default function ForumPage() {
   return (
